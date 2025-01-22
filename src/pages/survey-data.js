@@ -67,6 +67,7 @@ import { getTehsilApi } from "../network/actions/getTehsilApi";
 import { getPatwarApi } from "../network/actions/getPatwarApi";
 import { getVillageApi } from "../network/actions/getVillageApi";
 import Select from "react-select";
+import DatePickerNew from '../components/DatePicker';
 
 const columns = [
   {
@@ -365,6 +366,14 @@ const ViewDataHotel = () => {
     else if (name == "village") {
       setFilterData({ ...filterData, [name]: e })
     }
+    else if (name == "toDate") {
+      setFilterData({ ...filterData, [name]: e.target.value })
+
+    }
+    else if (name == "fromDate") {
+      setFilterData({ ...filterData, [name]: e.target.value })
+
+    }
 
   }
 
@@ -651,6 +660,36 @@ const ViewDataHotel = () => {
               options={villageOptions}
               onChange={(e) => handleChangeFilter(e, "village")}
               isDisabled={getVillageCode() ? true : false}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <InputLabel
+              style={{ marginBottom: 5 }}
+              id="demo-simple-select-helper-label"
+            >
+              From Date
+            </InputLabel>
+            <DatePickerNew
+              title=""
+              type="date"
+              name="fromDate"
+              value={filterData?.fromDate || {}}
+              onChange={(e) => handleChangeFilter(e, "fromDate")}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <InputLabel
+              style={{ marginBottom: 5 }}
+              id="demo-simple-select-helper-label"
+            >
+              To Date
+            </InputLabel>
+            <DatePickerNew
+              title=""
+              type="date"
+              name="toDate"
+              value={filterData?.toDate || {}}
+              onChange={(e) => handleChangeFilter(e, "toDate")}
             />
           </Grid>
           <Grid item xs={2} mt={2}>

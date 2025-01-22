@@ -36,6 +36,12 @@ export const onDashboarFilters = (body, setLoader=()=>{}) => {
       if (body?.village?.value){
         url = url +  `&villageId=${encryptDataGet(JSON.stringify(body?.village?.value))}`
       }
+      if (body?.fromDate && body?.toDate){
+        url = url +  `&fromDate=${encryptDataGet(body?.fromDate)}`
+      }
+      if (body?.fromDate && body?.toDate) {
+        url = url +  `&toDate=${encryptDataGet(body?.toDate)}`
+      }
 
       const response = await axios.get(url);
 
