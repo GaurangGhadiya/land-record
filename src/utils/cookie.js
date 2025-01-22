@@ -3,11 +3,13 @@ import { decryptData, encryptDataPost } from "./encryptDecrypt";
 
 // Save the token in localStorage
 export const saveToken = (data) => {
+  console.log('data', data)
   Cookies.set("land_userName", encryptDataPost(JSON.stringify(data?.name))); // expires in 1 days
   Cookies.set("land_district", encryptDataPost(JSON.stringify(data?.districtID || ""))); // expires in 1 days
   Cookies.set("land_tehsil", encryptDataPost(JSON.stringify(data?.tehsilID || ""))); // expires in 1 days
   Cookies.set("land_patwar", encryptDataPost(JSON.stringify(data?.patwarCircleID || ""))); // expires in 1 days
   Cookies.set("land_village", encryptDataPost(JSON.stringify(data?.village || "")));
+  Cookies.set("land_kanungoCircleID", encryptDataPost(JSON.stringify(data?.kanungoCircleID)));
   Cookies.set("land_divisionCode", encryptDataPost(data?.districtID));
   Cookies.set("land_divisionName", encryptDataPost(data?.divisionName));
   Cookies.set("land_subDivisionCode", encryptDataPost(JSON.stringify(data?.subDivisionID)));
@@ -35,6 +37,9 @@ export const getPatwarCode = () => {
 };
 export const getVillageCode= () => {
   return decryptData(Cookies.get("land_village"));
+};
+export const getKanungoCode= () => {
+  return decryptData(Cookies.get("land_kanungoCircleID"));
 };
 export const getUserName = () => {
   return decryptData(Cookies.get("land_userName"));
@@ -71,6 +76,7 @@ export const removeToken = () => {
   Cookies.remove("land_roles");
   Cookies.remove("land_block");
   Cookies.remove("land_district");
+  Cookies.remove("getKanungoCode");
   Cookies.remove("land_panchayat");
   Cookies.remove("land_village");
 

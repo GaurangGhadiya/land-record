@@ -20,21 +20,15 @@ export const onHotelList = (setLoader,page = 0, size = 20, body) => {
         // debugger
         try {
             setLoader(true)
-            let url = `/survey/hotel/summaryList?page=${encryptDataGet(page + "")}&size=${encryptDataGet(size + "")}`
+            let url = `/dashboard/survey/summary?page=${encryptDataGet(page + "")}&size=${encryptDataGet(size + "")}`
             if (body?.district?.value) {
                 url = url + `&districtId=${encryptDataGet(JSON.stringify(body?.district?.value))}`
             }
-            if (body?.municipal?.value) {
-                url = url + `&municipalityId=${encryptDataGet(JSON.stringify(body?.municipal?.value))}`
+            if (body?.patwar?.value) {
+                url = url + `&patwarityId=${encryptDataGet(JSON.stringify(body?.patwar?.value))}`
             }
-            if (body?.ward?.value) {
-                url = url + `&wardId=${encryptDataGet(JSON.stringify(body?.ward?.value))}`
-            }
-            if (body?.block?.value) {
-                url = url + `&blockId=${encryptDataGet(JSON.stringify(body?.block?.value))}`
-            }
-            if (body?.pachayat?.value) {
-                url = url + `&panchayatId=${encryptDataGet(JSON.stringify(body?.pachayat?.value))}`
+            if (body?.tehsil?.value) {
+                url = url + `&tehsilId=${encryptDataGet(JSON.stringify(body?.tehsil?.value))}`
             }
             if (body?.village?.value) {
                 url = url + `&villageId=${encryptDataGet(JSON.stringify(body?.village?.value))}`

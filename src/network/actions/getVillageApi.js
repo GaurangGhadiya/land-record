@@ -16,13 +16,14 @@ export const getVillageApiFailure = (error) => ({
 });
 
 // Async Action to Fetch Data
-export const getVillageApi = (id) => {
-    console.log('id ', id )
+export const getVillageApi = (id, id2, id3) => {
+    console.log('id ', id ,id2,id3)
     return async (dispatch) => {
         try {
             // const response = await axios.get(`/master-data?status=true&masterName=district`, {});
-            const response = await axios.get(`/master-data?status=${encryptDataGet(`true`)}&masterName=${encryptDataGet("revenueVillage")}&parentId=${encryptDataGet(id)}`, {});
+            const response = await axios.get(`/master-data?status=${encryptDataGet(`true`)}&masterName=${encryptDataGet("revenueVillage")}&parentId=${encryptDataGet(JSON.stringify(id))}&secondaryParentId=${encryptDataGet(JSON.stringify(id2))}&ternryParentId=${encryptDataGet(JSON.stringify(id3))}`, {});
             let responseData = decryptData(response?.data?.data)
+            console.log('responseData', responseData)
             // let responseData = response?.data?.data
             dispatch(getVillageApiSuccess(responseData));
         } catch (error) {

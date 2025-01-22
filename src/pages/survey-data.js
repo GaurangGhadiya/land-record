@@ -5,7 +5,7 @@ import { onHotelList } from "../network/actions/hotelList";
 import { fetchFamiliesDetSuccess, onFamiliesDetailApi } from "../network/actions/familyDetailApi";
 import { fetchHotelDetSuccess, onHotelDetailApi } from "../network/actions/hotelDetailApi";
 import { onShowLoader } from "../network/actions/showLoader";
-import { getDistrict, getPanchayat, getRoles, getToken, getVillage, removeToken } from "../utils/cookie";
+import { getDistrict, getKanungoCode, getPanchayat, getRoles, getToken, getVillage, removeToken } from "../utils/cookie";
 import { useRouter } from "next/router";
 import Snackbar from "@mui/material/Snackbar";
 import Groups2TwoToneIcon from "@mui/icons-material/Groups2TwoTone";
@@ -70,31 +70,31 @@ import Select from "react-select";
 
 const columns = [
   {
-    id: "ownerName",
-    label: "Owner Name",
+    id: "district",
+    label: "District",
     minWidth: 170,
     align: "center",
     fontWeight: "bold",
   },
-  { id: "divisionName", label: "Division Name", minWidth: 100, align: "center" },
+  { id: "tehsil", label: "Tehsil", minWidth: 100, align: "center" },
   {
-    id: "subDivisionName",
-    label: "Sub Division Name",
+    id: "patwar",
+    label: "Patwar",
     align: "center",
     minWidth: 170,
 
     // format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "areaType",
-    label: "Area Type",
+    id: "village",
+    label: "Vllage",
     minWidth: 150,
     align: "center",
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: "totalNumberOfMeters",
-    label: "Number Of Meters",
+    id: "ownerCount",
+    label: "Surveyed Owners",
     minWidth: 170,
     align: "center",
     // format: (value) => `XXXX-XXXX-${value
@@ -102,30 +102,30 @@ const columns = [
     //   .slice(-4)}`,
   },
   {
-    id: "address",
-    label: "Address",
+    id: "khataCount",
+    label: "Surveyed District Khatas",
     align: "center",
     // format: (value) => value.toFixed(2),
   },
   {
-    id: "createdOn",
-    label: "Surveyed On",
+    id: "distinctKhataCount",
+    label: "Distinct Khata Count",
     align: "center",
-    format: (value) => <div style={{
-      backgroundColor: "yellowgreen",
-      padding: "5px 7px",
-      borderRadius: "5px",
-      color: "white",
-      fontWeight: "bold"
-    }}>{ConvertDateFormat(value)}</div>,
-
+    // format: (value) => value.toFixed(2),
   },
   {
-    id: "view",
-    label: "Action",
+    id: "totalOwnerCount",
+    label: "Total Owners",
     align: "center",
-    format: (value) => value.toFixed(2),
+    // format: (value) => value.toFixed(2),
   },
+
+  // {
+  //   id: "view",
+  //   label: "Action",
+  //   align: "center",
+  //   // format: (value) => value.toFixed(2),
+  // },
 ];
 
 const style = {
@@ -169,14 +169,14 @@ const ViewDataHotel = () => {
   const [selectedMunicipality, setSelectedMunicipality] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
   const [selectedVillage, setSelectedVillage] = useState(null);
-const [districtOptions, setDistrictOptions] = useState([])
+  const [districtOptions, setDistrictOptions] = useState([])
   const [tehsilOptions, setTehsilOptions] = useState([])
   const [patwarOptions, setPatwarOptions] = useState([])
   const [villageOptions, setVillageOptions] = useState([])
   const [filterData, setFilterData] = useState({
     district: "",
     tehsil: "",
-   patwar: "",
+    patwar: "",
     village: "",
   })
   const [Loader, setLoader] = useState(true);
@@ -194,7 +194,7 @@ const [districtOptions, setDistrictOptions] = useState([])
   // const globalUser = getToken();
   const router = useRouter();
 
- const districtListApi = useSelector(
+  const districtListApi = useSelector(
     (state) => state.districtReducer?.data
   );
   const tehsilListApi = useSelector(
@@ -211,164 +211,168 @@ const [districtOptions, setDistrictOptions] = useState([])
 
   useEffect(() => {
 
-  dispatch(getDistrictApi())
+    dispatch(getDistrictApi())
 
   }, [])
 
- useEffect(() => {
-        let district_list = [];
+  useEffect(() => {
+    let district_list = [];
 
-        if (districtListApi) {
-            if (districtListApi) {
+    if (districtListApi) {
+      if (districtListApi) {
 
-                for (let i = 0; i < districtListApi.length; i++) {
-                    let object = {
-                      label: districtListApi[i].nameE,
-                        value: districtListApi[i].lgdCode,
-                        id: districtListApi[i].lgdCode,
-                    };
-                    district_list.push(object);
-                }
-              setDistrictOptions(district_list);
-            }
-          const divisionCode = getdistrictCode();
-          console.log('divisionCode', divisionCode)
-            if (divisionCode) {
-                setFilterData({
-                    ...filterData, district: {
-                    label: districtListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
-                        value: divisionCode,
-                        code: divisionCode,
-                    }
-                })
-              dispatch(getTehsilApi(divisionCode))
-
-            }
+        for (let i = 0; i < districtListApi.length; i++) {
+          let object = {
+            label: districtListApi[i].nameE,
+            value: districtListApi[i].lgdCode,
+            id: districtListApi[i].lgdCode,
+          };
+          district_list.push(object);
         }
- }, [districtListApi]);
- useEffect(() => {
-        let tehsil_list = [];
+        setDistrictOptions(district_list);
+      }
+      const divisionCode = getdistrictCode();
+      console.log('divisionCode', divisionCode)
+      if (divisionCode) {
+        setFilterData({
+          ...filterData, district: {
+            label: districtListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
+            value: divisionCode,
+            code: divisionCode,
+          }
+        })
+        dispatch(getTehsilApi(divisionCode))
 
-        if (tehsilListApi) {
-            if (tehsilListApi) {
+      }
+    }
+  }, [districtListApi]);
+  useEffect(() => {
+    let tehsil_list = [];
 
-                for (let i = 0; i < tehsilListApi.length; i++) {
-                    let object = {
-                      label: tehsilListApi[i].nameE,
-                        value: tehsilListApi[i].lgdCode,
-                        id: tehsilListApi[i].lgdCode,
-                    };
-                    tehsil_list.push(object);
-                }
-              setTehsilOptions(tehsil_list);
-            }
-          const divisionCode = gettehsilCode();
-          console.log('tehsil', divisionCode)
-            if (divisionCode) {
-                setFilterData({
-                    ...filterData, tehsil: {
-                    label: tehsilListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
-                        value: divisionCode,
-                        code: divisionCode,
-                    }
-                })
-              dispatch(getPatwarApi(divisionCode))
+    if (tehsilListApi) {
+      if (tehsilListApi) {
 
-            }
+        for (let i = 0; i < tehsilListApi.length; i++) {
+          let object = {
+            label: tehsilListApi[i].nameE,
+            value: tehsilListApi[i].lgdCode,
+            id: tehsilListApi[i].lgdCode,
+          };
+          tehsil_list.push(object);
         }
- }, [tehsilListApi]);
- useEffect(() => {
-        let patwar_list = [];
+        setTehsilOptions(tehsil_list);
+      }
+      const divisionCode = gettehsilCode();
+      console.log('tehsil', divisionCode)
+      if (divisionCode) {
+        setFilterData({
+          ...filterData, tehsil: {
+            label: tehsilListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
+            value: divisionCode,
+            code: divisionCode,
+          }
+        })
+        dispatch(getPatwarApi(divisionCode))
 
-        if (patwarListApi) {
-            if (patwarListApi) {
+      }
+    }
+  }, [tehsilListApi]);
+  useEffect(() => {
+    let patwar_list = [];
 
-                for (let i = 0; i < patwarListApi.length; i++) {
-                    let object = {
-                      label: patwarListApi[i].nameE,
-                        value: patwarListApi[i].lgdCode,
-                        id: patwarListApi[i].lgdCode,
-                    };
-                    patwar_list.push(object);
-                }
-              setPatwarOptions(patwar_list);
-            }
-          const divisionCode = getPatwarCode();
-          console.log('patwar', divisionCode)
-            if (divisionCode) {
-                setFilterData({
-                    ...filterData, patwar: {
-                    label: patwarListApi?.find(v => v?.rmsPatwarId == divisionCode)?.nameE,
-                        value: divisionCode,
-                        code: divisionCode,
-                    }
-                })
-              dispatch(getVillageApi(divisionCode))
+    if (patwarListApi) {
+      if (patwarListApi) {
 
-            }
+        for (let i = 0; i < patwarListApi.length; i++) {
+          let object = {
+            label: patwarListApi[i].nameE,
+            value: patwarListApi[i].rmsPatwarId,
+            id: patwarListApi[i].rmsPatwarId,
+          };
+          patwar_list.push(object);
         }
- }, [patwarListApi]);
- useEffect(() => {
-        let village_list = [];
+        setPatwarOptions(patwar_list);
+      }
+      const divisionCode = getPatwarCode();
+      const divisionCode2 = gettehsilCode();
+      const divisionCode3 = getKanungoCode();
+      console.log('patwar', divisionCode)
+      if (divisionCode) {
+        setFilterData({
+          ...filterData, patwar: {
+            label: patwarListApi?.find(v => v?.rmsPatwarId == divisionCode)?.nameE,
+            value: divisionCode,
+            code: divisionCode,
+          }
+        })
+        dispatch(getVillageApi(divisionCode, divisionCode2, divisionCode3))
 
-        if (villageListApi) {
-            if (villageListApi) {
+      }
+    }
+  }, [patwarListApi]);
+  useEffect(() => {
+    let village_list = [];
 
-                for (let i = 0; i < villageListApi.length; i++) {
-                    let object = {
-                      label: villageListApi[i].nameE,
-                        value: villageListApi[i].lgdCode,
-                        id: villageListApi[i].lgdCode,
-                    };
-                    village_list.push(object);
-                }
-              setVillageOptions(village_list);
-            }
-          // const divisionCode = getPatwarCode();
-          // console.log('patwar', divisionCode)
-          //   if (divisionCode) {
-          //       setFilterData({
-          //           ...filterData, patwar: {
-          //           label: villageListApi?.find(v => v?.rmsPatwarId == divisionCode)?.nameE,
-          //               value: divisionCode,
-          //               code: divisionCode,
-          //           }
-          //       })
-          //     dispatch(getVillageApi(divisionCode))
+    if (villageListApi) {
+      if (villageListApi) {
 
-          //   }
+        for (let i = 0; i < villageListApi.length; i++) {
+          let object = {
+            label: villageListApi[i].nameE,
+            value: villageListApi[i].lgdCode,
+            id: villageListApi[i].lgdCode,
+          };
+          village_list.push(object);
         }
- }, [villageListApi]);
+        setVillageOptions(village_list);
+      }
+      // const divisionCode = getPatwarCode();
+      // console.log('patwar', divisionCode)
+      //   if (divisionCode) {
+      //       setFilterData({
+      //           ...filterData, patwar: {
+      //           label: villageListApi?.find(v => v?.rmsPatwarId == divisionCode)?.nameE,
+      //               value: divisionCode,
+      //               code: divisionCode,
+      //           }
+      //       })
+      //     dispatch(getVillageApi(divisionCode))
+
+      //   }
+    }
+  }, [villageListApi]);
   console.log('filterData', filterData)
   const handleChangeFilter = (e, name) => {
     console.log('e123', e)
     if (name == "district") {
       setFilterData({ ...filterData, [name]: e })
 
-      dispatch(getTehsilApi(e))
+      dispatch(getTehsilApi(e?.value))
 
     }
     else if (name == "tehsil") {
       setFilterData({ ...filterData, [name]: e })
-      dispatch(getPatwarApi(e))
+      dispatch(getPatwarApi(e?.value))
 
     }
     else if (name == "patwar") {
-      setFilterData({ ...filterData,  [name]: e })
-      dispatch(getVillageApi(e))
+      const divisionCode3 = getKanungoCode();
+
+      setFilterData({ ...filterData, [name]: e })
+      dispatch(getVillageApi(e?.value, filterData?.tehsil?.value, divisionCode3))
 
     }
     else if (name == "village") {
-      setFilterData({ ...filterData,  [name]: e })
+      setFilterData({ ...filterData, [name]: e })
     }
 
-    }
+  }
 
   useEffect(() => {
     let roles;
     if (getRoles()) {
 
-       roles = getRoles();
+      roles = getRoles();
     } else {
       // removeToken();
       // router.push("/login");
@@ -397,7 +401,7 @@ const [districtOptions, setDistrictOptions] = useState([])
     //   1
     // );
     setFilterData(data)
-    dispatch(onHotelList(setLoader,0, 20, data));
+    dispatch(onHotelList(setLoader, 0, 20, data));
   };
 
   const handleCardClick = () => {
@@ -416,7 +420,7 @@ const [districtOptions, setDistrictOptions] = useState([])
       //   selectedWard?.id,
       //   1
       // );
-      dispatch(onHotelList(setLoader,newPage - 1, 20, filterData));
+      dispatch(onHotelList(setLoader, newPage - 1, 20, filterData));
 
       // dispatch(onHotelList(setLoader,queryParams));
     } else {
@@ -431,7 +435,7 @@ const [districtOptions, setDistrictOptions] = useState([])
       //   ulb?.id,
       //   1
       // );
-      dispatch(onHotelList(setLoader,newPage - 1, 20, filterData));
+      dispatch(onHotelList(setLoader, newPage - 1, 20, filterData));
 
       // dispatch(onHotelList(setLoader,queryParams));
     }
@@ -451,33 +455,33 @@ const [districtOptions, setDistrictOptions] = useState([])
     }
   };
 
-    useEffect(() => {
-      if (familiesDetailApi?.value?.id) {
-        // const { data, status, message, rationCardAlreadyExists } =
-        //   familiesList.data || {};
-        setShowModal(true);
-        // setrationList(data);
+  useEffect(() => {
+    if (familiesDetailApi?.value?.id) {
+      // const { data, status, message, rationCardAlreadyExists } =
+      //   familiesList.data || {};
+      setShowModal(true);
+      // setrationList(data);
 
-        setselectedFamily(familiesDetailApi?.value);
-        const getdetail = async () => {
-          let cardNo = familiesDetailApi?.value?.meters?.map(v => v?.rationCard && v?.rationCard?.cardNumber)
-          let uniq = [...new Set(cardNo)]
-          if (uniq?.length > 0) {
-            const results = await Promise.all(uniq?.map(fetchRationCardData));
-            // Filter out any null results (failed requests)
-            const validResults = results.filter((result) => result !== null);
+      setselectedFamily(familiesDetailApi?.value);
+      const getdetail = async () => {
+        let cardNo = familiesDetailApi?.value?.meters?.map(v => v?.rationCard && v?.rationCard?.cardNumber)
+        let uniq = [...new Set(cardNo)]
+        if (uniq?.length > 0) {
+          const results = await Promise.all(uniq?.map(fetchRationCardData));
+          // Filter out any null results (failed requests)
+          const validResults = results.filter((result) => result !== null);
 
-            setGetRationFamilyData(validResults)
-            // dispatch(getRationFamily(uniq))
-          }
+          setGetRationFamilyData(validResults)
+          // dispatch(getRationFamily(uniq))
         }
-        if (familiesDetailApi?.value?.meters) {
-          getdetail()
-        }
-        setdetailCalled(false);
-        // setLoader(false)
       }
-    }, [familiesDetailApi]);
+      if (familiesDetailApi?.value?.meters) {
+        getdetail()
+      }
+      setdetailCalled(false);
+      // setLoader(false)
+    }
+  }, [familiesDetailApi]);
   useEffect(() => {
     // setShowModal(false);
     if (familiesList?.error) {
@@ -541,7 +545,7 @@ const [districtOptions, setDistrictOptions] = useState([])
     //   ulb?.id,
     //   1
     // );
-    dispatch(onHotelList(setLoader,0, 20, filterData));
+    dispatch(onHotelList(setLoader, 0, 20, filterData));
 
     // dispatch(onHotelList(setLoader,queryParams));
   }, []);
@@ -563,6 +567,8 @@ const [districtOptions, setDistrictOptions] = useState([])
 
   const selectStyles = { menu: (styles) => ({ ...styles, zIndex: 999 }) };
   const searchData = () => {
+    dispatch(onHotelList(setLoader, 0, 20, filterData));
+
     // if (filterData?.division && filterData?.subDivision && filterData?.fromDate && filterData?.toDate) {
 
     //     // dispatch(onConsumerSummaryReport(filterData, 0, setLoading));
@@ -571,12 +577,14 @@ const [districtOptions, setDistrictOptions] = useState([])
 
     // }
   }
+
+  console.log('familyList', familyList)
   return (
     <>
       <Layout>
         <Grid container spacing={4} style={{ flex: 1, padding: 20 }}>
 
-          <Grid item xs={3}>
+          <Grid item xs={2.5}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -594,7 +602,7 @@ const [districtOptions, setDistrictOptions] = useState([])
             />
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={2.5}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -611,7 +619,7 @@ const [districtOptions, setDistrictOptions] = useState([])
               isDisabled={gettehsilCode() ? true : false}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2.5}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -628,7 +636,7 @@ const [districtOptions, setDistrictOptions] = useState([])
               isDisabled={getPatwarCode() ? true : false}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2.5}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -653,10 +661,10 @@ const [districtOptions, setDistrictOptions] = useState([])
           <ErrorSnack open={open} setOpen={setOpen} message={errorMessage} />
         )}
         <main className="p-6 space-y-6">
-          {Loader == true ? <Box display={"flex"} justifyContent={"center"} alignItems={"center"} height={"70vh"}><CircularProgress /></Box> :  <>
+          {Loader == true ? <Box display={"flex"} justifyContent={"center"} alignItems={"center"} height={"70vh"}><CircularProgress /></Box> : <>
             {familyList &&
               familyList.content &&
-              (familyList.content.length > 0 ) ? (
+              (familyList.content.length > 0) ? (
               <Grid container sx={{ background: "#FFF", borderRadius: 6 }}>
                 <Grid
                   item={true}
@@ -716,7 +724,7 @@ const [districtOptions, setDistrictOptions] = useState([])
                                           (typeof value === "number" || index == 6)
                                           ? column.format(value)
                                           : value}
-                                        {index > 6 && (
+                                        {index > 7 && (
                                           <>
                                             <Stack spacing={2} direction="row">
                                               {/* {isAdmin && (
@@ -755,25 +763,25 @@ const [districtOptions, setDistrictOptions] = useState([])
                                                 </Button>
                                               )} */}
                                               {/* {!isAdmin && ( */}
-                                                <Button
-                                                  color="success"
-                                                  startIcon={
-                                                    <RemoveRedEyeIcon />
-                                                  }
-                                                  onClick={(handleEvent) => {
+                                              <Button
+                                                color="success"
+                                                startIcon={
+                                                  <RemoveRedEyeIcon />
+                                                }
+                                                onClick={(handleEvent) => {
 
-                                                    setSelectedItems(row);
-                                                    setdetailCalled(true);
-                                                    setShowModal(true);
-                                                    dispatch(
-                                                      onHotelDetailApi(
-                                                        row?.id, setLoading
-                                                      )
-                                                    );
-                                                  }}
-                                                >
-                                                  View
-                                                </Button>
+                                                  setSelectedItems(row);
+                                                  setdetailCalled(true);
+                                                  setShowModal(true);
+                                                  dispatch(
+                                                    onHotelDetailApi(
+                                                      row?.id, setLoading
+                                                    )
+                                                  );
+                                                }}
+                                              >
+                                                View
+                                              </Button>
                                               {/* )} */}
                                             </Stack>
                                           </>
@@ -804,8 +812,8 @@ const [districtOptions, setDistrictOptions] = useState([])
                             display: "flex",
                             justifyContent: "flex-end",
                           }}
-                            count={totalPage}
-                            page={page == 0 ? 1 : page}
+                          count={totalPage}
+                          page={page == 0 ? 1 : page}
                           onChange={handleChangePage}
                           color="primary"
                         />
@@ -814,12 +822,12 @@ const [districtOptions, setDistrictOptions] = useState([])
                   </div>
                 </Grid>
               </Grid>
-            ) :  !Loader ?(
+            ) : !Loader ? (
               <div>
                 {/* This is the "else" case, modify as needed */}
                 <p>No data available.</p>
               </div>
-              ) : ""}
+            ) : ""}
 
 
           </>}

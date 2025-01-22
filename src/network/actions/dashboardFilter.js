@@ -22,29 +22,25 @@ export const onDashboarFilters = (body, setLoader=()=>{}) => {
   return async (dispatch) => {
     try {
       setLoader(true)
-      let url =  `/dashboard/report`
+      let url = `/dashboard/report`
+      console.log('body', body)
       if (body?.district?.value){
         url = url +  `?districtId=${encryptDataGet(JSON.stringify(body?.district?.value))}`
       }
-      if (body?.municipal?.value){
-        url = url +  `&municipalityId=${encryptDataGet(JSON.stringify(body?.municipal?.value))}`
+      if (body?.patwar?.value){
+        url = url +  `&patwarityId=${encryptDataGet(JSON.stringify(body?.patwar?.value))}`
       }
-      if (body?.ward?.value){
-        url = url +  `&wardId=${encryptDataGet(JSON.stringify(body?.ward?.value))}`
-      }
-      if (body?.block?.value){
-        url = url +  `&blockId=${encryptDataGet(JSON.stringify(body?.block?.value))}`
-      }
-      if (body?.pachayat?.value){
-        url = url +  `&panchayatId=${encryptDataGet(JSON.stringify(body?.pachayat?.value))}`
+      if (body?.tehsil?.value){
+        url = url +  `&tehsilId=${encryptDataGet(JSON.stringify(body?.tehsil?.value))}`
       }
       if (body?.village?.value){
         url = url +  `&villageId=${encryptDataGet(JSON.stringify(body?.village?.value))}`
       }
+
       const response = await axios.get(url);
 
       let data = decryptData(response?.data?.data)
-
+console.log('data', data)
       dispatch(fetchDashboardSuccess(data));
       setLoader(false)
     } catch (error) {

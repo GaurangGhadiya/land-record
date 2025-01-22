@@ -21,7 +21,7 @@ export const getPatwarApi = (id) => {
     return async (dispatch) => {
         try {
             // const response = await axios.get(`/master-data?status=true&masterName=district`, {});
-            const response = await axios.get(`/master-data?status=${encryptDataGet(`true`)}&masterName=${encryptDataGet("revenuePatwarCircle")}&parentId=${encryptDataGet(id)}`, {});
+            const response = await axios.get(`/master-data?status=${encryptDataGet(`true`)}&masterName=${encryptDataGet("revenuePatwarCircle")}&parentId=${encryptDataGet(JSON.stringify(id))}`, {});
             let responseData = decryptData(response?.data?.data)
             // let responseData = response?.data?.data
             dispatch(getPatwarApiSuccess(responseData));

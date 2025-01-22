@@ -13,7 +13,7 @@ import { TopCard } from "./TopCard";
 import Filters from "./dashboard/filters";
 import { onDashboarFilters } from "../network/actions/dashboardFilter";
 import formatNumber from "../utils/NumberFormat";
-import { getdistrictCode, getPatwarCode, gettehsilCode, getVillageCode } from "../utils/cookie";
+import { getdistrictCode, getKanungoCode, getPatwarCode, gettehsilCode, getVillageCode } from "../utils/cookie";
 import { getDistrictApi } from "../network/actions/getDistrictApi";
 import { getTehsilApi } from "../network/actions/getTehsilApi";
 import { getPatwarApi } from "../network/actions/getPatwarApi";
@@ -131,21 +131,24 @@ const Dashboard = () => {
  }, [tehsilListApi]);
  useEffect(() => {
         let patwar_list = [];
-
+console.log('patwarListApi', patwarListApi)
         if (patwarListApi) {
             if (patwarListApi) {
 
                 for (let i = 0; i < patwarListApi.length; i++) {
                     let object = {
                       label: patwarListApi[i].nameE,
-                        value: patwarListApi[i].lgdCode,
-                        id: patwarListApi[i].lgdCode,
+                      value: patwarListApi[i].rmsPatwarId,
+                      id: patwarListApi[i].rmsPatwarId,
                     };
                     patwar_list.push(object);
                 }
               setPatwarOptions(patwar_list);
             }
           const divisionCode = getPatwarCode();
+          const divisionCode2 = gettehsilCode();
+          const divisionCode3 = getKanungoCode();
+
           console.log('patwar', divisionCode)
             if (divisionCode) {
                 setFilterData({
@@ -155,7 +158,7 @@ const Dashboard = () => {
                         code: divisionCode,
                     }
                 })
-              dispatch(getVillageApi(divisionCode))
+              dispatch(getVillageApi(divisionCode, divisionCode2, divisionCode3))
 
             }
         }
@@ -193,21 +196,23 @@ const Dashboard = () => {
  }, [villageListApi]);
   console.log('filterData', filterData)
   const handleChangeFilter = (e, name) => {
-    console.log('e123', e)
+    console.log('e123', e,name)
     if (name == "district") {
       setFilterData({ ...filterData, [name]: e })
 
-      dispatch(getTehsilApi(e))
+      dispatch(getTehsilApi(e?.value))
 
     }
     else if (name == "tehsil") {
       setFilterData({ ...filterData, [name]: e })
-      dispatch(getPatwarApi(e))
+      dispatch(getPatwarApi(e?.value))
 
     }
     else if (name == "patwar") {
+      const divisionCode3 = getKanungoCode();
+
       setFilterData({ ...filterData,  [name]: e })
-      dispatch(getVillageApi(e))
+      dispatch(getVillageApi(e?.value, filterData?.tehsil?.value, divisionCode3))
 
     }
     else if (name == "village") {
@@ -246,6 +251,7 @@ const Dashboard = () => {
 
   const selectStyles = { menu: (styles) => ({ ...styles, zIndex: 999 }) };
   const searchData = () => {
+    dispatch(onDashboarFilters(filterData, setLoader));
         // if (filterData?.division && filterData?.subDivision && filterData?.fromDate && filterData?.toDate) {
 
         //     // dispatch(onConsumerSummaryReport(filterData, 0, setLoading));
@@ -255,10 +261,10 @@ const Dashboard = () => {
         // }
     }
   return (
-    !surveyInfo?.length > 0 ? <>
+    surveyInfo?.length > 0 ? <>
       <Grid container spacing={4} style={{ flex: 1, padding: 20 }}>
 
-        <Grid item xs={3}>
+        <Grid item xs={2.5}>
           <InputLabel
             style={{ marginBottom: 5 }}
             id="demo-simple-select-helper-label"
@@ -276,7 +282,7 @@ const Dashboard = () => {
           />
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={2.5}>
           <InputLabel
             style={{ marginBottom: 5 }}
             id="demo-simple-select-helper-label"
@@ -293,7 +299,7 @@ const Dashboard = () => {
             isDisabled={gettehsilCode() ? true : false}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2.5}>
           <InputLabel
             style={{ marginBottom: 5 }}
             id="demo-simple-select-helper-label"
@@ -310,7 +316,7 @@ const Dashboard = () => {
             isDisabled={getPatwarCode() ? true : false}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2.5}>
           <InputLabel
             style={{ marginBottom: 5 }}
             id="demo-simple-select-helper-label"
