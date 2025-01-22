@@ -24,17 +24,22 @@ export const onDashboarFilters = (body, setLoader=()=>{}) => {
       setLoader(true)
       let url = `/dashboard/report`
       console.log('body', body)
-      if (body?.district?.value){
-        url = url +  `?districtId=${encryptDataGet(JSON.stringify(body?.district?.value))}`
+      if (body?.district?.value) {
+        let value = typeof body?.district?.value == "number" ? JSON.stringify(body?.district?.value) : body?.district?.value
+        url = url +  `?districtId=${encryptDataGet(value)}`
       }
-      if (body?.patwar?.value){
-        url = url +  `&patwarityId=${encryptDataGet(JSON.stringify(body?.patwar?.value))}`
+      if (body?.patwar?.value) {
+        let value = typeof body?.patwar?.value == "number" ? JSON.stringify(body?.patwar?.value) : body?.patwar?.value
+        url = url +  `&patwarId=${encryptDataGet(value)}`
       }
-      if (body?.tehsil?.value){
-        url = url +  `&tehsilId=${encryptDataGet(JSON.stringify(body?.tehsil?.value))}`
+      if (body?.tehsil?.value) {
+        let value = typeof body?.tehsil?.value == "number" ? JSON.stringify(body?.tehsil?.value) : body?.tehsil?.value
+        url = url +  `&tehsilId=${encryptDataGet(value)}`
       }
-      if (body?.village?.value){
-        url = url +  `&villageId=${encryptDataGet(JSON.stringify(body?.village?.value))}`
+      if (body?.village?.value) {
+        let value = typeof body?.village?.value == "number" ? JSON.stringify(body?.village?.value) : body?.village?.value
+
+        url = url +  `&villageId=${encryptDataGet(value)}`
       }
       if (body?.fromDate && body?.toDate){
         url = url +  `&fromDate=${encryptDataGet(body?.fromDate)}`

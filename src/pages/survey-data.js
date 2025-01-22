@@ -242,7 +242,7 @@ const ViewDataHotel = () => {
             code: divisionCode,
           }
         })
-        dispatch(getTehsilApi(divisionCode))
+        dispatch(getTehsilApi(+divisionCode))
 
       }
     }
@@ -273,7 +273,7 @@ const ViewDataHotel = () => {
             code: divisionCode,
           }
         })
-        dispatch(getPatwarApi(divisionCode))
+        dispatch(getPatwarApi(+divisionCode))
 
       }
     }
@@ -306,8 +306,8 @@ const ViewDataHotel = () => {
             code: divisionCode,
           }
         })
-        dispatch(getVillageApi(divisionCode, divisionCode2, divisionCode3))
-
+        dispatch(getVillageApi(+divisionCode, +divisionCode2, +divisionCode3))
+        searchData()
       }
     }
   }, [patwarListApi]);

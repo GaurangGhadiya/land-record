@@ -85,7 +85,7 @@ const Dashboard = () => {
               setDistrictOptions(district_list);
             }
           const divisionCode = getdistrictCode();
-          console.log('divisionCode', divisionCode)
+          console.log('divisionCode', divisionCode, typeof divisionCode)
             if (divisionCode) {
                 setFilterData({
                     ...filterData, district: {
@@ -94,7 +94,7 @@ const Dashboard = () => {
                         code: divisionCode,
                     }
                 })
-              dispatch(getTehsilApi(divisionCode))
+              dispatch(getTehsilApi(+divisionCode))
 
             }
         }
@@ -125,7 +125,7 @@ const Dashboard = () => {
                         code: divisionCode,
                     }
                 })
-              dispatch(getPatwarApi(divisionCode))
+              dispatch(getPatwarApi(+divisionCode))
 
             }
         }
@@ -159,8 +159,8 @@ console.log('patwarListApi', patwarListApi)
                         code: divisionCode,
                     }
                 })
-              dispatch(getVillageApi(divisionCode, divisionCode2, divisionCode3))
-
+              dispatch(getVillageApi(+divisionCode,+divisionCode2, +divisionCode3))
+              searchData()
             }
         }
  }, [patwarListApi]);
@@ -231,7 +231,7 @@ console.log('patwarListApi', patwarListApi)
     }
 
   useEffect(() => {
-    dispatch(onDashboarFilters(filterData, setLoader));
+      dispatch(onDashboarFilters(filterData, setLoader));
   }, []);
 
   useEffect(() => {
