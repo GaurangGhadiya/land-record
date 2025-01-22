@@ -41,10 +41,10 @@ export const onDashboarFilters = (body, setLoader=()=>{}) => {
 
         url = url +  `&villageId=${encryptDataGet(value)}`
       }
-      if (body?.fromDate && body?.toDate){
+      if (body?.fromDate && body?.toDate && body?.district?.value && body?.patwar?.value && body?.tehsil?.value && body?.village?.value  ){
         url = url +  `&fromDate=${encryptDataGet(body?.fromDate)}`
       }
-      if (body?.fromDate && body?.toDate) {
+      if (body?.fromDate && body?.toDate && body?.district?.value && body?.patwar?.value && body?.tehsil?.value && body?.village?.value) {
         url = url +  `&toDate=${encryptDataGet(body?.toDate)}`
       }
 

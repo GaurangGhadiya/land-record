@@ -593,7 +593,7 @@ const ViewDataHotel = () => {
       <Layout>
         <Grid container spacing={4} style={{ flex: 1, padding: 20 }}>
 
-          <Grid item xs={2.5}>
+          <Grid item xs={1.8}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -611,7 +611,7 @@ const ViewDataHotel = () => {
             />
           </Grid>
 
-          <Grid item xs={2.5}>
+          <Grid item xs={1.8}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -628,7 +628,7 @@ const ViewDataHotel = () => {
               isDisabled={gettehsilCode() ? true : false}
             />
           </Grid>
-          <Grid item xs={2.5}>
+          <Grid item xs={1.8}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -645,7 +645,7 @@ const ViewDataHotel = () => {
               isDisabled={getPatwarCode() ? true : false}
             />
           </Grid>
-          <Grid item xs={2.5}>
+          <Grid item xs={1.8}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -662,7 +662,7 @@ const ViewDataHotel = () => {
               isDisabled={getVillageCode() ? true : false}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1.8}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -677,7 +677,7 @@ const ViewDataHotel = () => {
               onChange={(e) => handleChangeFilter(e, "fromDate")}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1.8}>
             <InputLabel
               style={{ marginBottom: 5 }}
               id="demo-simple-select-helper-label"
@@ -692,7 +692,7 @@ const ViewDataHotel = () => {
               onChange={(e) => handleChangeFilter(e, "toDate")}
             />
           </Grid>
-          <Grid item xs={2} mt={2}>
+          <Grid item xs={1} mt={2}>
             <Button variant="contained" onClick={searchData}>Search</Button>
           </Grid>
         </Grid>
