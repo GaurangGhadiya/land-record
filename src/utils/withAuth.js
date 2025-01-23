@@ -14,13 +14,13 @@ const withAuth = (WrappedComponent) => {
     const AuthComponent = (props) => {
         const router = useRouter();
 
-        useEffect(() => {
-            const { userName, ulb } = checkCookies({ req: typeof window === 'undefined' ? ctx.req : undefined });
-            // Check if cookies are available, and if not, redirect to the login page
-            if ((!userName && !router.pathname.includes('/login')) || !ulb) {
-                router.push('/login');
-            }
-        }, []);
+        // useEffect(() => {
+        //     const { userName, ulb } = checkCookies({ req: typeof window === 'undefined' ? ctx.req : undefined });
+        //     // Check if cookies are available, and if not, redirect to the login page
+        //     if ((!userName && !router.pathname.includes('/login')) || !ulb) {
+        //         router.push('/login');
+        //     }
+        // }, []);
 
         return <WrappedComponent {...props} />;
     };
