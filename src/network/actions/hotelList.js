@@ -23,7 +23,7 @@ export const onHotelList = (setLoader,page = 0, size = 20, body) => {
             let url = `/dashboard/survey/summary?page=${encryptDataGet(page + "")}&size=${encryptDataGet(size + "")}`
             if (body?.district?.value) {
                 let value = typeof body?.district?.value == "number" ? JSON.stringify(body?.district?.value) : body?.district?.value
-                url = url + `?districtId=${encryptDataGet(value)}`
+                url = url + `&districtId=${encryptDataGet(value)}`
             }
             if (body?.patwar?.value) {
                 let value = typeof body?.patwar?.value == "number" ? JSON.stringify(body?.patwar?.value) : body?.patwar?.value

@@ -16,20 +16,25 @@ export const fetchDownloadFailure = (error) => ({
 });
 
 // Async Action to Fetch Data
-export const onSummaryReportDownload = (queryParams) => {
+export const onSummaryReportDownload = (body) => {
   return async (dispatch) => {
     let urlLink = `/download/excel/survey/summary`
-    if (queryParams?.type?.value) {
-      urlLink = urlLink + `?tag=${encryptDataGet(queryParams?.type?.value)}`
+    if (body?.district?.value) {
+      let value = typeof body?.district?.value == "number" ? JSON.stringify(body?.district?.value) : body?.district?.value
+      urlLink = urlLink + `?districtId=${encryptDataGet(value)}`
     }
-    if (queryParams?.division?.value) {
-      urlLink = urlLink + `&divisionName=${encryptDataGet(queryParams?.division?.label)}&divisionCode=${encryptDataGet(JSON.stringify(queryParams?.division?.value))}`
+    if (body?.patwar?.value) {
+      let value = typeof body?.patwar?.value == "number" ? JSON.stringify(body?.patwar?.value) : body?.patwar?.value
+      urlLink = urlLink + `&patwarId=${encryptDataGet(value)}`
     }
-    if (queryParams?.subDivision?.value) {
-      urlLink = urlLink + `&subDivisionCode=${encryptDataGet(JSON.stringify(queryParams?.subDivision?.value))}`
+    if (body?.tehsil?.value) {
+      let value = typeof body?.tehsil?.value == "number" ? JSON.stringify(body?.tehsil?.value) : body?.tehsil?.value
+      urlLink = urlLink + `&tehsilId=${encryptDataGet(value)}`
     }
-    if (queryParams?.fromDate && queryParams?.toDate) {
-      urlLink = urlLink + `&fromDate=${encryptDataGet(queryParams?.fromDate)}&toDate=${encryptDataGet(queryParams?.toDate)}`
+    if (body?.village?.value) {
+      let value = typeof body?.village?.value == "number" ? JSON.stringify(body?.village?.value) : body?.village?.value
+
+      urlLink = urlLink + `&villageId=${encryptDataGet(value)}`
     }
     try {
       const response = await axios.get(urlLink, {
@@ -44,7 +49,7 @@ export const onSummaryReportDownload = (queryParams) => {
       link.href = url;
       link.setAttribute(
           "download",
-          `SummaryReport.csv`
+          `SurveyReport.csv`
       ); // Set the filename for the download
 
       // Append the link to the body and trigger the download

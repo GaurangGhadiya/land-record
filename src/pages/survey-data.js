@@ -68,6 +68,8 @@ import { getPatwarApi } from "../network/actions/getPatwarApi";
 import { getVillageApi } from "../network/actions/getVillageApi";
 import Select from "react-select";
 import DatePickerNew from '../components/DatePicker';
+import DownloadIcon from '@mui/icons-material/Download';
+import { onSummaryReportDownload } from "../network/actions/downloadSummaryReport";
 
 const columns = [
   {
@@ -578,14 +580,14 @@ const ViewDataHotel = () => {
   const searchData = () => {
     dispatch(onHotelList(setLoader, 0, 20, filterData));
 
-    // if (filterData?.division && filterData?.subDivision && filterData?.fromDate && filterData?.toDate) {
-
-    //     // dispatch(onConsumerSummaryReport(filterData, 0, setLoading));
-    // } else {
-
-
-    // }
   }
+
+    const downloadReport = () => {
+      // const {selectedDistrict, selectedWard, selectedMunicipal} = tableData || {};
+      dispatch(
+        onSummaryReportDownload(filterData)
+      )
+    }
 
   console.log('familyList', familyList)
   return (
@@ -699,6 +701,35 @@ const ViewDataHotel = () => {
         {errorMessage && (
           <ErrorSnack open={open} setOpen={setOpen} message={errorMessage} />
         )}
+
+        <Box
+          style={{
+            background: "#074465",
+            color: "#FFF",
+            // borderRadius: 6,
+            // marginLeft: 20,
+            // marginRight: 20,
+          }}
+        >
+          <Typography
+            fontSize={20}
+            fontStyle={700}
+            textAlign={"center"}
+            style={{ paddingLeft: 10 }}
+          >
+            Survey Report
+
+
+            <Button onClick={() => downloadReport()} variant="contained" color="primary" style={{ marginTop: "0px" }}>
+
+              <DownloadIcon />   Download Excel
+
+            </Button>
+
+
+          </Typography>
+
+        </Box>
         <main className="p-6 space-y-6">
           {Loader == true ? <Box display={"flex"} justifyContent={"center"} alignItems={"center"} height={"70vh"}><CircularProgress /></Box> : <>
             {familyList &&

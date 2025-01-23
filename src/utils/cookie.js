@@ -3,7 +3,7 @@ import { decryptData, encryptDataPost } from "./encryptDecrypt";
 
 // Save the token in localStorage
 export const saveToken = (data) => {
-  console.log('data', data)
+  // console.log('data', data)
   Cookies.set("land_userName", encryptDataPost(JSON.stringify(data?.name))); // expires in 1 days
   Cookies.set("land_district", encryptDataPost(JSON.stringify(data?.districtID || ""))); // expires in 1 days
   Cookies.set("land_tehsil", encryptDataPost(JSON.stringify(data?.tehsilID || ""))); // expires in 1 days
@@ -25,6 +25,19 @@ export const saveToken = (data) => {
 export const getToken = () => {
   return Cookies.get("land_authToken");
 };
+export const getdivisionCode = () => {
+  return Cookies.get("land_authToken");
+};
+export const getsubDivisionName = () => {
+  return Cookies.get("land_authToken");
+};
+
+export const getsubDivisionCode = () => {
+  return Cookies.get("land_authToken");
+};
+export const getdivisionName = () => {
+  return Cookies.get("land_authToken");
+};
 
 export const getdistrictCode = () => {
   return decryptData(Cookies.get("land_district"));
@@ -35,10 +48,10 @@ export const gettehsilCode = () => {
 export const getPatwarCode = () => {
   return decryptData(Cookies.get("land_patwar"));
 };
-export const getVillageCode= () => {
+export const getVillageCode = () => {
   return decryptData(Cookies.get("land_village"));
 };
-export const getKanungoCode= () => {
+export const getKanungoCode = () => {
   return decryptData(Cookies.get("land_kanungoCircleID"));
 };
 export const getUserName = () => {
