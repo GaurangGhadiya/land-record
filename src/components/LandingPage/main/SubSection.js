@@ -93,7 +93,7 @@ const SubSection = () => {
                                 lineHeight: 1.8,
                                 paddingBottom: '30px',
                             }}>
-Easily log into the application using the credentials from the existing Revenue Management System, ensuring secure access to your authorized account. The user-friendly interface simplifies the login process for your convenience. Once logged in, you can explore the application's features and resources for a seamless experience.                        </Typography>
+Easily log into the application using the credentials from the existing Revenue Management System, ensuring secure access to your authorized account. The user-friendly interface simplifies the login process for your convenience. Once logged in, you can explore the applications features and resources for a seamless experience.                        </Typography>
 
                     </Grid>
 
@@ -142,7 +142,7 @@ Conducting Survey
                                 lineHeight: 1.8,
                                 paddingBottom: '30px',
                             }}>
-                                    The Department of Land Record Survey Application provides an efficient and systematic data collection process for landowners within Himachal Pradesh. Patwaris are able to conduct surveys by searching for the landowner's name and performing eKYC. The application also allows for the seamless addition of new entries, ensuring that land ownership data remains current and accurate. These features collectively enhance operational efficiency and contribute to effective land management and planning.
+                                    The Department of Land Record Survey Application provides an efficient and systematic data collection process for landowners within Himachal Pradesh. Patwaris are able to conduct surveys by searching for the landowners name and performing eKYC. The application also allows for the seamless addition of new entries, ensuring that land ownership data remains current and accurate. These features collectively enhance operational efficiency and contribute to effective land management and planning.
                                     </Typography>
                     </Grid>
 
