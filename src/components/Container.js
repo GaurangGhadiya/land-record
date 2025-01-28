@@ -628,9 +628,9 @@ const Dashboard = () => {
           </>
         )}
 
-        {userName == "Admin" &&
+        {/* {userName == "Admin" && */}
           <Chart1  />
-        }
+        {/* } */}
       </main>}
     </> : <Box display={"flex"} alignItems={"center"} justifyContent={"center"} height={"90vh"}><CircularProgress /></Box>
   );

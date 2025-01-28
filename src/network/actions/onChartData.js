@@ -34,6 +34,10 @@ export const onChartDataFilters = (body, setLoader=()=>{}) => {
         let value = typeof body?.tehsil?.value == "number" ? JSON.stringify(body?.tehsil?.value) : body?.tehsil?.value
         url = url +  `&tehsilId=${encryptDataGet(value)}`
       }
+      if (body?.patwar?.value) {
+        let value = typeof body?.patwar?.value == "number" ? JSON.stringify(body?.patwar?.value) : body?.patwar?.value
+        url = url +  `&patwarId=${encryptDataGet(value)}`
+      }
 
       const response = await axios.get(url);
 
