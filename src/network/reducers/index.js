@@ -47,6 +47,7 @@ import districtReducer from "./getDistrictApi";
 import tehsilReducer from "./getTehsilApi";
 import patwarReducer from "./getPatwarApi";
 import villageReducer from "./getVillageApi";
+import onChartDataRedux from "./onChartData";
 
 const rootReducer = combineReducers({
   login,
@@ -95,6 +96,8 @@ const rootReducer = combineReducers({
   tehsilReducer,
   patwarReducer,
   villageReducer,
+  onChartDataRedux
 });
+
 
 export default rootReducer;

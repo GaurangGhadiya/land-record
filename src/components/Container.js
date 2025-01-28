@@ -13,18 +13,20 @@ import { TopCard } from "./TopCard";
 import Filters from "./dashboard/filters";
 import { onDashboarFilters } from "../network/actions/dashboardFilter";
 import formatNumber from "../utils/NumberFormat";
-import { getdistrictCode, getKanungoCode, getPatwarCode, gettehsilCode, getVillageCode } from "../utils/cookie";
+import { getdistrictCode, getKanungoCode, getPatwarCode, gettehsilCode, getUserName, getVillageCode } from "../utils/cookie";
 import { getDistrictApi } from "../network/actions/getDistrictApi";
 import { getTehsilApi } from "../network/actions/getTehsilApi";
 import { getPatwarApi } from "../network/actions/getPatwarApi";
 import { getVillageApi } from "../network/actions/getVillageApi";
 import DatePickerNew from "./DatePicker";
+import Chart1 from "./Chart1";
 
 const Dashboard = () => {
   /**
    * Dashboard Object
    */
   const [surveyInfo, setSurveyInfo] = useState([]);
+  const [totalRecords, setTotalRecords] = useState([]);
   const [verificationInfoList, setVerificationInfoList] = useState([]);
   const [aadhaarEkycInfoList, setAadhaarEkycInfoList] = useState([]);
   const [economicCategoryInfoList, setEconomicCategoryInfoList] = useState([]);
@@ -37,6 +39,7 @@ const Dashboard = () => {
   const [tehsilOptions, setTehsilOptions] = useState([])
   const [patwarOptions, setPatwarOptions] = useState([])
   const [villageOptions, setVillageOptions] = useState([])
+  const [userName, setUserName] = useState("");
   const [filterData, setFilterData] = useState({
     district: "",
     tehsil: "",
@@ -64,9 +67,17 @@ const Dashboard = () => {
 
   useEffect(() => {
 
-  dispatch(getDistrictApi())
+    dispatch(getDistrictApi())
+    const divisionCode = getUserName();
+    if (divisionCode) {
+
+      setUserName(divisionCode)
+    }
+
 
   }, [])
+
+  console.log('userName', userName)
 
  useEffect(() => {
         let district_list = [];
@@ -235,11 +246,13 @@ console.log('patwarListApi', patwarListApi)
   }, []);
 
   useEffect(() => {
+    console.log('dashboardFilterState', dashboardFilterState)
     if (dashboardFilterState?.data) {
       // const { data, status, message } = dashboardFilterState.data || {};
       if (dashboardFilterState?.data) {
         // Set the parsed data to state variables
         setSurveyInfo(dashboardFilterState?.data?.surveyInfoList);
+        setTotalRecords(dashboardFilterState?.data?.totalRecordsList);
         setBuildingData(dashboardFilterState?.data?.buldingSurveyInfo);
         setHotelData(dashboardFilterState?.data?.hotelSurveyInfo);
         setVerificationInfoList(dashboardFilterState?.data?.verificationInfoList);
@@ -378,6 +391,34 @@ console.log('patwarListApi', patwarListApi)
       </Grid>
       {/* <Filters onChange={handleFilterChange} /> */}
       {Loader == true ? <Box display={"flex"} alignItems={"center"} justifyContent={"center"} height={"70vh"}><CircularProgress /></Box> :<main className="p-6 space-y-6">
+        {totalRecords?.length > 0 && (
+          <>
+            <Box
+              style={{ background: "#074465", color: "#FFF", borderRadius: 6 }}
+            >
+              <Typography
+                fontSize={20}
+                fontStyle={700}
+                textAlign={"left"}
+                style={{ paddingLeft: 10 }}
+              >
+                Total Records
+              </Typography>
+            </Box>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TopCard
+                  top_header_data={totalRecords.map((item) => ({
+                    label: item.headerName.toUpperCase(),
+                    value: item.headerValueCount ? formatNumber(item.headerValueCount) : 0,
+                    color: "red", // You can customize this color based on your requirements
+                  }))}
+                />
+              </Grid>
+            </Grid>
+          </>
+        )}
         {surveyInfo?.length > 0 && (
           <>
             <Box
@@ -583,7 +624,9 @@ console.log('patwarListApi', patwarListApi)
           </>
         )}
 
-
+        {userName == "Admin" &&
+          <Chart1  />
+        }
       </main>}
     </> : <Box display={"flex"} alignItems={"center"} justifyContent={"center"} height={"90vh"}><CircularProgress /></Box>
   );
