@@ -63,7 +63,6 @@ const Dashboard = () => {
     (state) => state.villageReducer?.data
   );
 
-  console.log('districtListApi', districtListApi, tehsilListApi, patwarListApi, villageListApi)
 
   useEffect(() => {
 
@@ -77,7 +76,6 @@ const Dashboard = () => {
 
   }, [])
 
-  console.log('userName', userName)
 
   const setDistrictData = async () => {
     let district_list = [];
@@ -131,7 +129,6 @@ const Dashboard = () => {
         setTehsilOptions(tehsil_list);
       }
       const divisionCode = await gettehsilCode();
-      console.log('tehsil', divisionCode)
       if (divisionCode) {
         setFilterData({
           ...filterData, tehsil: {
@@ -151,7 +148,6 @@ const Dashboard = () => {
 
   const setPatwatData = async () => {
     let patwar_list = [];
-    console.log('patwarListApi', patwarListApi)
     if (patwarListApi) {
       if (patwarListApi) {
 
@@ -169,7 +165,6 @@ const Dashboard = () => {
       const divisionCode2 =await gettehsilCode();
       const divisionCode3 =await getKanungoCode();
 
-      console.log('patwar', divisionCode)
       if (divisionCode) {
         setFilterData({
           ...filterData, patwar: {
@@ -219,7 +214,6 @@ const Dashboard = () => {
  }, [villageListApi]);
   console.log('filterData', filterData)
   const handleChangeFilter = (e, name) => {
-    console.log('e123', e,name)
     if (name == "district") {
       setFilterData({ ...filterData, [name]: e })
 
@@ -257,7 +251,6 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    console.log('dashboardFilterState', dashboardFilterState)
     if (dashboardFilterState?.data) {
       // const { data, status, message } = dashboardFilterState.data || {};
       if (dashboardFilterState?.data) {
