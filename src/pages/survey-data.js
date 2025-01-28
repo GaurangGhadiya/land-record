@@ -105,14 +105,14 @@ const columns = [
     //   .slice(-4)}`,
   },
   {
-    id: "khataCount",
-    label: "Surveyed District Khatas",
+    id: "distinctKhataCount",
+    label: "Surveyed Distinct Khatas",
     align: "center",
     // format: (value) => value.toFixed(2),
   },
   {
-    id: "distinctKhataCount",
-    label: "Distinct Khata Count",
+    id: "khataCount",
+    label: "Total Khatas",
     align: "center",
     // format: (value) => value.toFixed(2),
   },
