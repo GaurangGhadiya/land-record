@@ -79,101 +79,112 @@ const Dashboard = () => {
 
   console.log('userName', userName)
 
- useEffect(() => {
-        let district_list = [];
+  const setDistrictData = async () => {
+    let district_list = [];
 
-        if (districtListApi) {
-            if (districtListApi) {
+    if (districtListApi) {
+      if (districtListApi) {
 
-                for (let i = 0; i < districtListApi.length; i++) {
-                    let object = {
-                      label: districtListApi[i].nameE,
-                        value: districtListApi[i].lgdCode,
-                        id: districtListApi[i].lgdCode,
-                    };
-                    district_list.push(object);
-                }
-              setDistrictOptions(district_list);
-            }
-          const divisionCode = getdistrictCode();
-          console.log('divisionCode', divisionCode, typeof divisionCode)
-            if (divisionCode) {
-                setFilterData({
-                    ...filterData, district: {
-                    label: districtListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
-                        value: divisionCode,
-                        code: divisionCode,
-                    }
-                })
-              dispatch(getTehsilApi(+divisionCode))
-
-            }
+        for (let i = 0; i < districtListApi.length; i++) {
+          let object = {
+            label: districtListApi[i].nameE,
+            value: districtListApi[i].lgdCode,
+            id: districtListApi[i].lgdCode,
+          };
+          district_list.push(object);
         }
+        setDistrictOptions(district_list);
+      }
+      const divisionCode = await getdistrictCode();
+      console.log('divisionCode', divisionCode, typeof divisionCode)
+      if (divisionCode) {
+        setFilterData({
+          ...filterData, district: {
+            label: districtListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
+            value: divisionCode,
+            code: divisionCode,
+          }
+        })
+        dispatch(getTehsilApi(+divisionCode))
+
+      }
+    }
+  }
+ useEffect(() => {
+       setDistrictData()
  }, [districtListApi]);
- useEffect(() => {
-        let tehsil_list = [];
 
-        if (tehsilListApi) {
-            if (tehsilListApi) {
+  const setTehsilData = async () => {
+    let tehsil_list = [];
 
-                for (let i = 0; i < tehsilListApi.length; i++) {
-                    let object = {
-                      label: tehsilListApi[i].nameE,
-                        value: tehsilListApi[i].lgdCode,
-                        id: tehsilListApi[i].lgdCode,
-                    };
-                    tehsil_list.push(object);
-                }
-              setTehsilOptions(tehsil_list);
-            }
-          const divisionCode = gettehsilCode();
-          console.log('tehsil', divisionCode)
-            if (divisionCode) {
-                setFilterData({
-                    ...filterData, tehsil: {
-                    label: tehsilListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
-                        value: divisionCode,
-                        code: divisionCode,
-                    }
-                })
-              dispatch(getPatwarApi(+divisionCode))
+    if (tehsilListApi) {
+      if (tehsilListApi) {
 
-            }
+        for (let i = 0; i < tehsilListApi.length; i++) {
+          let object = {
+            label: tehsilListApi[i].nameE,
+            value: tehsilListApi[i].lgdCode,
+            id: tehsilListApi[i].lgdCode,
+          };
+          tehsil_list.push(object);
         }
+        setTehsilOptions(tehsil_list);
+      }
+      const divisionCode = await gettehsilCode();
+      console.log('tehsil', divisionCode)
+      if (divisionCode) {
+        setFilterData({
+          ...filterData, tehsil: {
+            label: tehsilListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
+            value: divisionCode,
+            code: divisionCode,
+          }
+        })
+        dispatch(getPatwarApi(+divisionCode))
+
+      }
+    }
+  }
+ useEffect(() => {
+   setTehsilData()
  }, [tehsilListApi]);
- useEffect(() => {
-        let patwar_list = [];
-console.log('patwarListApi', patwarListApi)
-        if (patwarListApi) {
-            if (patwarListApi) {
 
-                for (let i = 0; i < patwarListApi.length; i++) {
-                    let object = {
-                      label: patwarListApi[i].nameE,
-                      value: patwarListApi[i].rmsPatwarId,
-                      id: patwarListApi[i].rmsPatwarId,
-                    };
-                    patwar_list.push(object);
-                }
-              setPatwarOptions(patwar_list);
-            }
-          const divisionCode = getPatwarCode();
-          const divisionCode2 = gettehsilCode();
-          const divisionCode3 = getKanungoCode();
+  const setPatwatData = async () => {
+    let patwar_list = [];
+    console.log('patwarListApi', patwarListApi)
+    if (patwarListApi) {
+      if (patwarListApi) {
 
-          console.log('patwar', divisionCode)
-            if (divisionCode) {
-                setFilterData({
-                    ...filterData, patwar: {
-                    label: patwarListApi?.find(v => v?.rmsPatwarId == divisionCode)?.nameE,
-                        value: divisionCode,
-                        code: divisionCode,
-                    }
-                })
-              dispatch(getVillageApi(+divisionCode,+divisionCode2, +divisionCode3))
-              searchData()
-            }
+        for (let i = 0; i < patwarListApi.length; i++) {
+          let object = {
+            label: patwarListApi[i].nameE,
+            value: patwarListApi[i].rmsPatwarId,
+            id: patwarListApi[i].rmsPatwarId,
+          };
+          patwar_list.push(object);
         }
+        setPatwarOptions(patwar_list);
+      }
+      const divisionCode =await getPatwarCode();
+      const divisionCode2 =await gettehsilCode();
+      const divisionCode3 =await getKanungoCode();
+
+      console.log('patwar', divisionCode)
+      if (divisionCode) {
+        setFilterData({
+          ...filterData, patwar: {
+            label: patwarListApi?.find(v => v?.rmsPatwarId == divisionCode)?.nameE,
+            value: divisionCode,
+            code: divisionCode,
+          }
+        })
+        dispatch(getVillageApi(+divisionCode, +divisionCode2, +divisionCode3))
+        searchData()
+      }
+    }
+  }
+ useEffect(() => {
+   setPatwatData()
  }, [patwarListApi]);
  useEffect(() => {
         let village_list = [];

@@ -28,6 +28,7 @@
     "body-parser": "^1.20.3",
     "bootstrap": "^5.2.3",
     "canvas": "^2.11.2",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "cookies": "^0.8.0",
     "crypto-js": "^4.2.0",
     "date-fns": "^2.30.0",

@@ -217,8 +217,7 @@ const ViewDataHotel = () => {
     dispatch(getDistrictApi())
 
   }, [])
-
-  useEffect(() => {
+  const getDistrictData = async () => {
     let district_list = [];
 
     if (districtListApi) {
@@ -234,7 +233,7 @@ const ViewDataHotel = () => {
         }
         setDistrictOptions(district_list);
       }
-      const divisionCode = getdistrictCode();
+      const divisionCode = await getdistrictCode();
       console.log('divisionCode', divisionCode)
       if (divisionCode) {
         setFilterData({
@@ -248,8 +247,11 @@ const ViewDataHotel = () => {
 
       }
     }
-  }, [districtListApi]);
+}
   useEffect(() => {
+    getDistrictData()
+  }, [districtListApi]);
+  const getTehsilData = async () => {
     let tehsil_list = [];
 
     if (tehsilListApi) {
@@ -265,7 +267,7 @@ const ViewDataHotel = () => {
         }
         setTehsilOptions(tehsil_list);
       }
-      const divisionCode = gettehsilCode();
+      const divisionCode = await gettehsilCode();
       console.log('tehsil', divisionCode)
       if (divisionCode) {
         setFilterData({
@@ -279,8 +281,11 @@ const ViewDataHotel = () => {
 
       }
     }
-  }, [tehsilListApi]);
+  }
   useEffect(() => {
+    getTehsilData()
+  }, [tehsilListApi]);
+  const getPatwar = async () => {
     let patwar_list = [];
 
     if (patwarListApi) {
@@ -296,9 +301,9 @@ const ViewDataHotel = () => {
         }
         setPatwarOptions(patwar_list);
       }
-      const divisionCode = getPatwarCode();
-      const divisionCode2 = gettehsilCode();
-      const divisionCode3 = getKanungoCode();
+      const divisionCode =await getPatwarCode();
+      const divisionCode2 = await gettehsilCode();
+      const divisionCode3 = await getKanungoCode();
       console.log('patwar', divisionCode)
       if (divisionCode) {
         setFilterData({
@@ -312,6 +317,9 @@ const ViewDataHotel = () => {
         searchData()
       }
     }
+  }
+  useEffect(() => {
+    getPatwar()
   }, [patwarListApi]);
   useEffect(() => {
     let village_list = [];
