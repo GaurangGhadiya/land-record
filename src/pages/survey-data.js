@@ -238,7 +238,7 @@ const ViewDataHotel = () => {
       if (divisionCode) {
         setFilterData({
           ...filterData, district: {
-            label: districtListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
+            label:await districtListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
             value: divisionCode,
             code: divisionCode,
           }
@@ -272,7 +272,7 @@ const ViewDataHotel = () => {
       if (divisionCode) {
         setFilterData({
           ...filterData, tehsil: {
-            label: tehsilListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
+            label:await tehsilListApi?.find(v => v?.lgdCode == divisionCode)?.nameE,
             value: divisionCode,
             code: divisionCode,
           }
@@ -308,7 +308,7 @@ const ViewDataHotel = () => {
       if (divisionCode) {
         setFilterData({
           ...filterData, patwar: {
-            label: patwarListApi?.find(v => v?.rmsPatwarId == divisionCode)?.nameE,
+            label:await patwarListApi?.find(v => v?.rmsPatwarId == divisionCode)?.nameE,
             value: divisionCode,
             code: divisionCode,
           }
